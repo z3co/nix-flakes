@@ -1,7 +1,7 @@
 {
   description = "My selection of flake templates";
 
-  outputs = { self, ... }: {
+  outputs = {self, ...}: {
     templates = {
       go-zsh = {
         path = ./templates/go;
@@ -11,4 +11,3 @@
     defaultTemplate = self.templates.go-zsh;
   };
 }
-    

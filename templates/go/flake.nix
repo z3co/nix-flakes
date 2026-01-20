@@ -28,7 +28,7 @@
             exec ${pkgs.zsh}/bin/zsh
           '';
         };
-        packages.default = pkgs.callPackage ./default.nix { }
+        packages.default = pkgs.callPackage ./default.nix {};
       }
     );
 }
