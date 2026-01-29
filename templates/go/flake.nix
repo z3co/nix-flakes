@@ -1,34 +1,27 @@
 {
-  description = "A simple go dev shell with zsh";
+  description = "A very basic flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-    ...
-  }:
-    flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in {
+  outputs = inputs@{ flake-parts, ... }: 
+    flake-parts.lib.mkFlake { inherit inputs; } 
+    {
+      systems = [ "x86_64-linux" "x86_64-darwin" ];
+      perSystem = { pkgs, ... }: {
+        packages.default = pkgs.callPackage ./default.nix {};
         devShells.default = pkgs.mkShell {
-          name = "go-zsh";
           packages = with pkgs; [
-            zsh
-            go
-            gopls
+            zsh go golangci-lint gopls
           ];
+          name = "golang";
           shellHook = ''
             export SHELL=${pkgs.zsh}/bin/zsh
             exec ${pkgs.zsh}/bin/zsh
           '';
         };
-        packages.default = pkgs.callPackage ./default.nix {};
-      }
-    );
+      };
+    };
 }

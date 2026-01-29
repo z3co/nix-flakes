@@ -1,6 +1,8 @@
-{buildGoModule}:
+{
+  buildGoModule
+}:
 buildGoModule {
-  pname = "package-name";
+  pname = "workout-api";
   version = "0.1.0";
   src = ./.;
   vendorHash = null;
