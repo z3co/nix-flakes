@@ -11,7 +11,12 @@
     {
       systems = [ "x86_64-linux" "x86_64-darwin" ];
       perSystem = { pkgs, ... }: {
-        packages.default = pkgs.callPackage ./default.nix {};
+        packages.default = pkgs.buildGoModule {
+          pname = "name";
+          version = "0.1.0";
+          src = ./.;
+          vendorHash = null;
+        };
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
             zsh go golangci-lint gopls
